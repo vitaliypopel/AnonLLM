@@ -5,13 +5,13 @@ import os
 
 load_dotenv()
 
+client = OpenAI(
+    api_key=os.getenv('API_KEY'),
+    base_url=os.getenv('BASE_URL'),
+)
+
 
 def llm(prompt: str) -> str:
-    client = OpenAI(
-        api_key=os.getenv('API_KEY'),
-        base_url=os.getenv('BASE_URL'),
-    )
-
     response = client.chat.completions.create(
         model='llama-13b-chat',
         messages=[

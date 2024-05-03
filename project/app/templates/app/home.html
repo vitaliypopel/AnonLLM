@@ -1,8 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>AnonLLM</title>
+        <link rel="stylesheet" href="{% static 'app/style.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="{% static 'app/api.js' %}"></script>
     </head>
     <body>
         <h1>Welcome to AnonLLM!</h1>
