@@ -4,6 +4,8 @@
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/dbnavigator.xml
+.idea/modules.xml
+.idea/.gitignore
 .idea/AnonLLM.iml
 .idea/discord.xml
 project/.env
