@@ -6,3 +6,5 @@
 .idea/dbnavigator.xml
 .idea/AnonLLM.iml
 .idea/discord.xml
+project/.env
+project/db.sqlite3
