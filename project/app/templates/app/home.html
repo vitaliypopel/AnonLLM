@@ -23,8 +23,6 @@
             <div class="p-2"></div>
 
             <div class="chat p-1 rounded">
-
-                {% if not messages %}
                 <div class="quick-start">
                     <h1 class="text-center mt-3 mb-3">How can i help you today?</h1>
                     <div class="default-question d-flex justify-content-center align-items-start">
@@ -33,57 +31,6 @@
                         <button class="btn btn-dark border m-1" type="button" title="Ask this question" id="q-tree">Create binary tree using Python.</button>
                     </div>
                 </div>
-                {% endif %}
-
-                {% for message in messages %}
-                <div class="user-message m-1 float-end message-width">
-                    <div class="card user-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">{{ message.question|linebreaksbr }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="llm-message m-1 float-start message-width">
-                    <div class="card llm-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">{{ message.answer|linebreaksbr }}</p>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-
-                <!-- <div class="user-message m-1 float-end message-width">
-                    <div class="card user-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">Hi! Who are you?</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="llm-message m-1 float-start message-width">
-                    <div class="card llm-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">Hello! I'm AnonLLM chat bot.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="user-message m-1 float-end message-width">
-                    <div class="card user-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi autem facere vero doloremque itaque consequuntur non! Accusantium illum, quam nisi reprehenderit asperiores sequi vitae porro molestias labore dignissimos, exercitationem fugit.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="llm-message m-1 float-start message-width">
-                    <div class="card llm-sharp-corner">
-                        <div class="card-body">
-                            <p class="card-text">That's crazyyy!</p>
-                        </div>
-                    </div>
-                </div> -->
             </div>
 
             <div class="form">
@@ -92,7 +39,6 @@
                     <button class="btn btn-dark border ps-3 pe-3" type="button" id="message-btn">↑</button>
                 </div>              
             </div>
-
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
