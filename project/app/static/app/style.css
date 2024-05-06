@@ -1,3 +1,55 @@
-h1 {
-    color: green;
+html, body {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+@media (min-width: 250px) {
+    .container, .container-fluid {
+        max-width: 600px !important;
+    }
+}
+
+.navbar {
+    flex-shrink: 0 !important;
+}
+
+.container {
+    border-left: 1px solid darkslategrey !important;
+    border-right: 1px solid darkslategrey !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+.chat {
+    overflow-y: scroll !important;
+    flex-grow: 1 !important;
+    background-color:darkslategrey !important;
+}
+
+.form {
+    flex-shrink: 0 !important;
+}
+
+.message-width {
+    width: fit-content !important;
+    clear: both !important;
+    max-width: 75% !important;
+}
+
+.llm-sharp-corner {
+    border-bottom-left-radius: 0 !important;
+}
+
+.user-sharp-corner {
+    border-bottom-right-radius: 0 !important;
+}
+
+#message {
+    height: 30px;
+    max-height: 30% !important;
 }
