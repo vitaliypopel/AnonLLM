@@ -93,7 +93,12 @@ const ask = (question) => {
     })
     .then((response) => {
       chatContainer.lastChild.remove()
-      createAnswer(response.data.answer)
+      if (response.data.error) {
+        alert(response.data.error)
+        chatContainer.lastChild.remove()
+      } else {
+        createAnswer(response.data.answer)
+      }
       messageBtn.addEventListener('click', messageBtnEvent)
     })
     .catch((error) => {
