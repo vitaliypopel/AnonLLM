@@ -30,7 +30,7 @@ def llm(prompt: str, history: list[dict]) -> str:
     messages.append({'role': 'user', 'content': prompt})
 
     response = client.chat.completions.create(
-        model='llama-13b-chat',
+        model='llama-70b-chat',
         messages=messages
     )
 

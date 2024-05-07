@@ -27,7 +27,7 @@ def get_history(messages: list[Message]) -> list[dict]:
     history = []
     for message in messages:
         history.append({'role': 'user', 'content': message.question})
-        history.append({'role': 'system', 'content': message.answer})
+        history.append({'role': 'assistant', 'content': message.answer})
 
     return history
 
@@ -53,7 +53,7 @@ def llm_api(request: HttpRequest) -> JsonResponse:
     try:
         answer = llm(question, history)
     except InternalServerError:
-        return JsonResponse({'error': 'Something went wrong.. Reload your page'})
+        return JsonResponse({'error': 'Something went wrong.. Try again'})
 
     response = {'answer': answer}
 

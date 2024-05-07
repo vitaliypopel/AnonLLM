@@ -12,7 +12,7 @@ window.onload = () => {
 }
 
 const autoGrow = (element) => {
-  element.style.height = "20vh";
+  element.style.height = "20vh"
 }
 
 const removeQuickStart = () => {
@@ -35,7 +35,7 @@ const createAnswer = (answer) => {
   llmMessage.className = 'llm-message m-1 float-start message-width'
 
   var messageCard = document.createElement('div')
-  messageCard.className = 'card llm-sharp-corner'
+  messageCard.className = 'card llm-message-card'
 
   var messageCardBody = document.createElement('div')
   messageCardBody.className = 'card-body'
@@ -58,7 +58,7 @@ const createQuestion = (question) => {
   userMessage.className = 'user-message m-1 float-end message-width'
 
   var messageCard = document.createElement('div')
-  messageCard.className = 'card user-sharp-corner'
+  messageCard.className = 'card user-message-card'
 
   var messageCardBody = document.createElement('div')
   messageCardBody.className = 'card-body'
