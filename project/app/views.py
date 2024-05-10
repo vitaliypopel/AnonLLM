@@ -14,6 +14,8 @@ from .llm import llm
 
 
 def get_session_id(request: HttpRequest) -> str:
+    # This function is creating unique hashed string for current chat using md5 for hash csrf token
+
     cookie_string = request.headers.get('Cookie')
 
     cookie = SimpleCookie()
@@ -24,6 +26,8 @@ def get_session_id(request: HttpRequest) -> str:
 
 
 def get_history(messages: list[Message]) -> list[dict]:
+    # History is a history of chat which saved in database for get more detail of current chat for LLM
+
     history = []
     for message in messages:
         history.append({'role': 'user', 'content': message.question})
@@ -34,18 +38,29 @@ def get_history(messages: list[Message]) -> list[dict]:
 
 @require_http_methods(['GET'])
 def chat(request: HttpRequest) -> HttpResponse:
+    # Main page which reset all messages before and returning html template with chat
+
     session_id = get_session_id(request)
-    messages = Message.objects.filter(session_id=session_id)
-    messages.delete()
+
+    try:
+        messages = Message.objects.filter(session_id=session_id)
+        if messages:
+            messages.delete()
+    except Exception as e:
+        print(e)
+        return HttpResponse('Something went wrong with database...', status=500)
+
     return render(request, 'app/home.html')
 
 
 @require_http_methods(['POST'])
 def llm_api(request: HttpRequest) -> JsonResponse:
+    # API for JavaScript for asking LLM model and responding
+
     session_id = get_session_id(request)
 
-    body = json.loads(request.body)
-    question = body.get('question', '')
+    request_body = json.loads(request.body)
+    question = request_body.get('question', '')
 
     messages = Message.objects.filter(session_id=session_id)
     history = get_history(messages)
@@ -57,11 +72,16 @@ def llm_api(request: HttpRequest) -> JsonResponse:
 
     response = {'answer': answer}
 
-    message = Message(
-        session_id=session_id,
-        question=question,
-        answer=answer,
-    )
-    message.save()
+    # We are saving messages for get more details of current chat session
+    try:
+        message = Message(
+            session_id=session_id,
+            question=question,
+            answer=answer,
+        )
+        message.save()
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': 'Something went wrong with database...'}, status=500)
 
     return JsonResponse(response)

@@ -3,8 +3,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
+# I'm using .env file for protection data
 load_dotenv()
 
+# API_KEY and BASE_URL is a my own API access to LLM model
 client = OpenAI(
     api_key=os.getenv('API_KEY'),
     base_url=os.getenv('BASE_URL'),
@@ -25,12 +27,14 @@ def llm(prompt: str, history: list[dict]) -> str:
                    'recent interaction while considering the context provided by previous messages. '
                    'It is not necessary to mention all the above memorized data in every message, '
                    'but it is important to remember them for possible future reference. '
-                   'Priority is given to the last asked question and its answer.'})
+                   'Priority is given to the last asked question and its answer.'
+    })
 
     messages.append({'role': 'user', 'content': prompt})
 
+    # llama-70b-chat
     response = client.chat.completions.create(
-        model='llama-70b-chat',
+        model='USE_YOUR_MODEL_HERE',
         messages=messages
     )
 
