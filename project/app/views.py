@@ -68,7 +68,7 @@ def llm_api(request: HttpRequest) -> JsonResponse:
     try:
         answer = llm(question, history)
     except InternalServerError:
-        return JsonResponse({'error': 'Something went wrong.. Try again'})
+        return JsonResponse({'error': 'Something went wrong.. Try again'}, status=500)
 
     response = {'answer': answer}
 
