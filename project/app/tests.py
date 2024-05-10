@@ -96,7 +96,7 @@ class LLMAPITests(TestCase):
         response = self.client.post(
             self.LLM_API_URL,
             data=json.dumps({'question': 'Who are you?'}),
-            content_type='application/json'
+            content_type='application/json',
         )
         response_body = json.loads(response.content)
 
