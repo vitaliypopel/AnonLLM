@@ -79,6 +79,11 @@ const createQuestion = (question) => {
 }
 
 const ask = (question) => {
+  if (!csrf) {
+    alert('Something went wront with CSRF token... Try to reload page')
+    return 0
+  }
+
   var message = document.getElementById('message')
   message.value = ''
   message.style.height = '30px'

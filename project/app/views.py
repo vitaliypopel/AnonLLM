@@ -14,16 +14,18 @@ import json
 from .llm import llm
 
 
-def get_session_id(request: HttpRequest) -> str:
+def get_session_id(request: HttpRequest) -> str | None:
     # This function is creating unique hashed string for current chat using md5 for hash csrf token
 
     cookie_string = request.headers.get('Cookie')
-
     cookie = SimpleCookie()
     cookie.load(cookie_string)
-    csrf = cookie['csrftoken'].value
 
-    return md5(csrf.encode()).hexdigest()
+    try:
+        csrf = cookie['csrftoken'].value
+        return md5(csrf.encode()).hexdigest()
+    except KeyError:
+        return None
 
 
 def get_history(messages: list[Message]) -> list[dict]:
@@ -43,6 +45,8 @@ def chat(request: HttpRequest) -> HttpResponse:
     # Main page which reset all messages before and returning html template with chat
 
     session_id = get_session_id(request)
+    if not session_id:
+        return HttpResponse('Cannot get access without CSRF token', status=403)
 
     try:
         messages = Message.objects.filter(session_id=session_id)
@@ -61,6 +65,8 @@ def llm_api(request: HttpRequest) -> JsonResponse:
     # API for JavaScript for asking LLM model and responding
 
     session_id = get_session_id(request)
+    if not session_id:
+        return JsonResponse({'error': 'Cannot get access without CSRF token'}, status=403)
 
     request_body = json.loads(request.body)
     question = request_body.get('question', '')
