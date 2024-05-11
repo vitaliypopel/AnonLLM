@@ -41,7 +41,7 @@ const createAnswer = (answer) => {
   messageCardBody.className = 'card-body'
 
   var messageCardText = document.createElement('p')
-  messageCardText.className = 'card-text'
+  messageCardText.className = 'card-text font-monospace'
   messageCardText.innerText = answer
 
   messageCardBody.appendChild(messageCardText)
@@ -64,7 +64,7 @@ const createQuestion = (question) => {
   messageCardBody.className = 'card-body'
 
   var messageCardText = document.createElement('p')
-  messageCardText.className = 'card-text'
+  messageCardText.className = 'card-text font-monospace'
   messageCardText.innerText = question
 
   messageCardBody.appendChild(messageCardText)

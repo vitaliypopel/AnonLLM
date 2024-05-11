@@ -82,6 +82,6 @@ html, body {
     background-color: rgb(90, 40, 156) !important;
 }
 
-#message-btn:focus, #q-hello:focus, #q-lang:focus, #q-tree:focus {
+#message-btn:active, #q-hello:active, #q-lang:active, #q-tree:active {
     background-color: rgb(103, 45, 179) !important;
 }

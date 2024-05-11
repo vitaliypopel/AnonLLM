@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 
 from .models import Message
@@ -37,6 +38,7 @@ def get_history(messages: list[Message]) -> list[dict]:
 
 
 @require_http_methods(['GET'])
+@ensure_csrf_cookie
 def chat(request: HttpRequest) -> HttpResponse:
     # Main page which reset all messages before and returning html template with chat
 
@@ -54,6 +56,7 @@ def chat(request: HttpRequest) -> HttpResponse:
 
 
 @require_http_methods(['POST'])
+@ensure_csrf_cookie
 def llm_api(request: HttpRequest) -> JsonResponse:
     # API for JavaScript for asking LLM model and responding
 
