@@ -32,9 +32,9 @@ def llm(prompt: str, history: list[dict]) -> str:
 
     messages.append({'role': 'user', 'content': prompt})
 
-    # llama-70b-chat
+    # MODEL is some LLM model which I using
     response = client.chat.completions.create(
-        model='USE_YOUR_MODEL_HERE',
+        model=os.getenv('MODEL'),
         messages=messages
     )
 
