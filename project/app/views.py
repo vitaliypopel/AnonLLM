@@ -27,7 +27,7 @@ def chat(request: HttpRequest) -> HttpResponse:
             messages.delete()
     except Exception as e:
         print(e)
-        return HttpResponse('Something went wrong with database...', status=500)
+        return HttpResponse(f'Something went wrong with database...{e}', status=500)
 
     return render(request, 'app/home.html')
 
