@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
-{% load static %}
 <html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
@@ -12,7 +11,95 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
         
-        <link rel="stylesheet" href="{% static 'app/style.css' %}">
+        <style>
+            html, body {
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                background-color: rgb(55, 30, 87) !important;
+            }
+
+            @media (min-width: 250px) {
+                .container, .container-fluid {
+                    max-width: 675px !important;
+                }
+            }
+
+            .logo {
+                font-family: 'IBM Plex Mono', monospace !important;
+                font-size: 31px !important;
+                font-style: normal !important;
+                font-optical-sizing: auto !important;
+                font-weight: 600 !important;
+                padding: 0 !important;
+                background: linear-gradient(to right, blue, rgb(128, 0, 119) 50%, red) !important;
+                -webkit-text-fill-color: transparent !important;
+                -webkit-background-clip: text !important;
+            }
+
+            .github svg {
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            .navbar {
+                flex-shrink: 0 !important;
+                background-color: rgb(61, 35, 94) !important;
+            }
+
+            .container {
+                flex-grow: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+            }
+
+            .chat {
+                overflow-y: scroll !important;
+                flex-grow: 1 !important;
+                background-color: rgb(64, 37, 98) !important;
+            }
+
+            .form {
+                flex-shrink: 0 !important;
+            }
+
+            .message-width {
+                width: fit-content !important;
+                clear: both !important;
+                max-width: 75% !important;
+            }
+
+            .llm-message-card {
+                border-bottom-left-radius: 0 !important;
+                background-color: rgb(58, 30, 95) !important;
+            }
+
+            .user-message-card {
+                border-bottom-right-radius: 0 !important;
+                background-color: rgb(60, 35, 95) !important;
+            }
+
+            #message {
+                height: 30px;
+                max-height: 30% !important;
+                background-color: rgb(58, 30, 94) !important;
+            }
+
+            #message-btn, #q-hello, #q-lang, #q-tree {
+                background-color: rgb(58, 32, 92) !important;
+            }
+
+            #message-btn:hover, #q-hello:hover, #q-lang:hover, #q-tree:hover {
+                background-color: rgb(90, 40, 156) !important;
+            }
+
+            #message-btn:active, #q-hello:active, #q-lang:active, #q-tree:active {
+                background-color: rgb(103, 45, 179) !important;
+            }
+        </style>
         
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'app/images/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'app/images/favicon-32x32.png' %}">
@@ -60,7 +147,143 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="{% static 'app/api.js' %}"></script>
+        <script>
+            let history = []
+
+            const csrf = document.cookie.split('; ')
+                                        .find(row => row.startsWith('csrftoken='))
+                                        ?.split('=')[1]
+
+            axios.defaults.headers.common['X-CSRFToken'] = csrf
+            axios.defaults.headers.common['Content-Type'] = 'application/json'
+
+            const chatContainer = document.getElementsByClassName('chat')[0]
+
+            window.onload = () => {
+              chatContainer.scrollTop = chatContainer.scrollHeight
+            }
+
+            const autoGrow = (element) => {
+              element.style.height = "20vh"
+            }
+
+            const removeQuickStart = () => {
+              var quickStartContainer = document.getElementsByClassName('quick-start')[0]
+              if (quickStartContainer) {
+                quickStartContainer.remove()
+              }
+            }
+
+            const messageBtnEvent = () => {
+              var message = document.getElementById('message')
+              ask(message.value)
+            }
+
+            const messageBtn = document.getElementById('message-btn')
+            messageBtn.addEventListener('click', messageBtnEvent)
+
+            const createAnswer = (answer) => {
+              var llmMessage = document.createElement('div')
+              llmMessage.className = 'llm-message m-1 float-start message-width'
+
+              var messageCard = document.createElement('div')
+              messageCard.className = 'card llm-message-card'
+
+              var messageCardBody = document.createElement('div')
+              messageCardBody.className = 'card-body'
+
+              var messageCardText = document.createElement('p')
+              messageCardText.className = 'card-text font-monospace'
+              messageCardText.innerText = answer
+
+              messageCardBody.appendChild(messageCardText)
+              messageCard.appendChild(messageCardBody)
+              llmMessage.appendChild(messageCard)
+
+              chatContainer.appendChild(llmMessage)
+
+              chatContainer.scrollTop = chatContainer.scrollHeight
+            }
+
+            const createQuestion = (question) => {
+              var userMessage = document.createElement('div')
+              userMessage.className = 'user-message m-1 float-end message-width'
+
+              var messageCard = document.createElement('div')
+              messageCard.className = 'card user-message-card'
+
+              var messageCardBody = document.createElement('div')
+              messageCardBody.className = 'card-body'
+
+              var messageCardText = document.createElement('p')
+              messageCardText.className = 'card-text font-monospace'
+              messageCardText.innerText = question
+
+              messageCardBody.appendChild(messageCardText)
+              messageCard.appendChild(messageCardBody)
+              userMessage.appendChild(messageCard)
+
+              chatContainer.appendChild(userMessage)
+
+              createAnswer('Please wait a few seconds...')
+
+              chatContainer.scrollTop = chatContainer.scrollHeight
+            }
+
+            const ask = (question) => {
+              if (!csrf) {
+                alert('Something went wront with CSRF token... Try to reload page')
+                return 0
+              }
+
+              var message = document.getElementById('message')
+              message.value = ''
+              message.style.height = '30px'
+
+              messageBtn.removeEventListener('click', messageBtnEvent)
+
+              removeQuickStart()
+              createQuestion(question)
+
+              history.push({
+                role: 'user',
+                content: question,
+              })
+
+              axios.post('/api/ask/', {
+                  history: history
+                })
+                .then((response) => {
+                  chatContainer.lastChild.remove()
+                  if (response.data.error) {
+                    alert(response.data.error)
+                    chatContainer.lastChild.remove()
+                  } else {
+                    var answer = response.data.answer
+                    createAnswer(answer)
+                    history.push({
+                        role: 'assistant',
+                        content: answer,
+                    })
+                  }
+                  messageBtn.addEventListener('click', messageBtnEvent)
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
+            }
+
+            const helloBtn = document.getElementById('q-hello')
+            const langsBtn = document.getElementById('q-lang')
+            const treeBtn = document.getElementById('q-tree')
+
+            if (helloBtn && langsBtn && treeBtn) {
+              helloBtn.addEventListener('click', () => ask(helloBtn.innerText))
+              langsBtn.addEventListener('click', () => ask(langsBtn.innerText))
+              treeBtn.addEventListener('click', () => ask(treeBtn.innerText))
+            }
+
+        </script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
