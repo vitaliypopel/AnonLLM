@@ -9,10 +9,10 @@
       }
     },
     {
-      "src": "static",
+      "src": "staticfiles",
       "use": "@vercel/static",
       "config": {
-        "distDir": "public/static"
+        "distDir": "staticfiles"
       }
     }
   ],
