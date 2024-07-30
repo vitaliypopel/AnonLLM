@@ -30,8 +30,9 @@ ALLOWED_HOSTS = [
     'localhost', 
     '127.0.0.1', 
     '*.vercel.app',
-    'anon-llm.verce.app',
+    'anon-llm.vercel.app',
     'anon-qzwodnej4-vitaliypopels-projects.vercel.app',
+    '*',
 ]
 
 
