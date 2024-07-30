@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>AnonLLM</title>
-
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-        
         <style>
             html, body {
                 height: 100% !important;
@@ -20,13 +16,11 @@
                 flex-direction: column !important;
                 background-color: rgb(55, 30, 87) !important;
             }
-
             @media (min-width: 250px) {
                 .container, .container-fluid {
                     max-width: 675px !important;
                 }
             }
-
             .logo {
                 font-family: 'IBM Plex Mono', monospace !important;
                 font-size: 31px !important;
@@ -38,72 +32,58 @@
                 -webkit-text-fill-color: transparent !important;
                 -webkit-background-clip: text !important;
             }
-
             .github svg {
                 height: 100% !important;
                 width: 100% !important;
             }
-
             .navbar {
                 flex-shrink: 0 !important;
                 background-color: rgb(61, 35, 94) !important;
             }
-
             .container {
                 flex-grow: 1 !important;
                 display: flex !important;
                 flex-direction: column !important;
                 overflow: hidden !important;
             }
-
             .chat {
                 overflow-y: scroll !important;
                 flex-grow: 1 !important;
                 background-color: rgb(64, 37, 98) !important;
             }
-
             .form {
                 flex-shrink: 0 !important;
             }
-
             .message-width {
                 width: fit-content !important;
                 clear: both !important;
                 max-width: 75% !important;
             }
-
             .llm-message-card {
                 border-bottom-left-radius: 0 !important;
                 background-color: rgb(58, 30, 95) !important;
             }
-
             .user-message-card {
                 border-bottom-right-radius: 0 !important;
                 background-color: rgb(60, 35, 95) !important;
             }
-
             #message {
                 height: 30px;
                 max-height: 30% !important;
                 background-color: rgb(58, 30, 94) !important;
             }
-
             #message-btn, #q-hello, #q-lang, #q-tree {
                 background-color: rgb(58, 32, 92) !important;
             }
-
             #message-btn:hover, #q-hello:hover, #q-lang:hover, #q-tree:hover {
                 background-color: rgb(90, 40, 156) !important;
             }
-
             #message-btn:active, #q-hello:active, #q-lang:active, #q-tree:active {
                 background-color: rgb(103, 45, 179) !important;
             }
         </style>
-
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
-
     <body>
         <nav class="navbar">
             <div class="container-fluid">
@@ -115,10 +95,8 @@
                 </a>
             </div>
         </nav>
-        
         <div class="container">
             <div class="p-2"></div>
-
             <div class="chat p-2 rounded">
                 <div class="quick-start">
                     <h1 class="text-center mt-2 mb-3 font-monospace">How can i help you today?</h1>
@@ -129,7 +107,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form">
                 <div class="input-group mt-3 mb-3">
                     <textarea class="form-control font-monospace" maxlength="20000" placeholder="Send a message" aria-describedby="message-btn" id="message" oninput="autoGrow(this)"></textarea>
@@ -137,19 +114,16 @@
                 </div>              
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script>
             let history = []
+            const chatContainer = document.getElementsByClassName('chat')[0]
 
             const csrf = document.cookie.split('; ')
                                         .find(row => row.startsWith('csrftoken='))
                                         ?.split('=')[1]
-
             axios.defaults.headers.common['X-CSRFToken'] = csrf
             axios.defaults.headers.common['Content-Type'] = 'application/json'
-
-            const chatContainer = document.getElementsByClassName('chat')[0]
 
             window.onload = () => {
               chatContainer.scrollTop = chatContainer.scrollHeight
@@ -231,7 +205,6 @@
               var message = document.getElementById('message')
               message.value = ''
               message.style.height = '30px'
-
               messageBtn.removeEventListener('click', messageBtnEvent)
 
               removeQuickStart()
@@ -268,15 +241,12 @@
             const helloBtn = document.getElementById('q-hello')
             const langsBtn = document.getElementById('q-lang')
             const treeBtn = document.getElementById('q-tree')
-
             if (helloBtn && langsBtn && treeBtn) {
               helloBtn.addEventListener('click', () => ask(helloBtn.innerText))
               langsBtn.addEventListener('click', () => ask(langsBtn.innerText))
               treeBtn.addEventListener('click', () => ask(treeBtn.innerText))
             }
-
         </script>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
