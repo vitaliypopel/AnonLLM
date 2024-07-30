@@ -59,10 +59,10 @@ class LLMAPITests(TestCase):
         response = self.client.post(
             self.LLM_API_URL,
             data=json.dumps({
-                'history': {
+                'history': [{
                     'role': 'user',
                     'content': 'Who are you?',
-                }
+                }]
             }),
             content_type='application/json',
         )
