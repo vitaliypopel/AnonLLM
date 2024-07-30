@@ -1,45 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Message
-
 from hashlib import md5
 import json
-
-
-class MessageTests(TestCase):
-    session_id = md5('test'.encode()).hexdigest()
-    question = 'Some django tests today?'
-    answer = 'Of course!'
-
-    def get_message_object(self) -> Message:
-        return Message(
-            session_id=self.session_id,
-            question=self.question,
-            answer=self.answer,
-        )
-
-    def test_save_message(self):
-        message = self.get_message_object()
-        message.save()
-
-        self.assertEqual(message.pk, 1)
-        self.assertEqual(message.session_id, self.session_id)
-        self.assertEqual(message.question, self.question)
-        self.assertEqual(message.answer, self.answer)
-
-    def test_delete_message(self):
-        self.get_message_object().save()
-
-        message = Message.objects.get(session_id=self.session_id)
-        message.delete()
-
-        with self.assertRaises(Message.DoesNotExist):
-            Message.objects.get(session_id=self.session_id)
-
-        self.assertFalse(
-            Message.objects.filter(session_id=self.session_id).exists()
-        )
 
 
 class ChatTests(TestCase):
@@ -95,7 +58,12 @@ class LLMAPITests(TestCase):
         self.set_csrf_token()
         response = self.client.post(
             self.LLM_API_URL,
-            data=json.dumps({'question': 'Who are you?'}),
+            data=json.dumps({
+                'history': {
+                    'role': 'user',
+                    'content': 'Who are you?',
+                }
+            }),
             content_type='application/json',
         )
         response_body = json.loads(response.content)

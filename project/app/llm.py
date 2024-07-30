@@ -13,7 +13,7 @@ client = OpenAI(
 )
 
 
-def llm(prompt: str, history: list[dict]) -> str:
+def llm(history: list[dict]) -> str:
     if not history:
         history = []
 
@@ -22,12 +22,14 @@ def llm(prompt: str, history: list[dict]) -> str:
         'content': (
             'AnonLLM provides context-aware responses based on a continuous memory of the conversation. '
             'It remembers all messages sent by the user and responds primarily based on the most recent interaction '
-            'while considering context from previous messages. Mentioning all memorized data in every response is not necessary, '
-            'but keeping it in mind for future interactions is important. Prioritize the last question and answer.'
+            'while considering context from previous messages. '
+            'Mentioning all memorized data in every response is not necessary, '
+            'but keeping it in mind for future interactions is important. '
+            'Prioritize the last question and answer.'
         )
-    }] + history + [{'role': 'user', 'content': prompt}]
+    }] + history
 
-    # MODEL is some LLM model which I using
+    # MODEL is some LLM model which I'm using
     response = client.chat.completions.create(
         model=os.getenv('MODEL'),
         messages=messages,

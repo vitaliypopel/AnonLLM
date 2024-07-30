@@ -1,3 +1,5 @@
+let history = []
+
 const csrf = document.cookie.split('; ')
                             .find(row => row.startsWith('csrftoken='))
                             ?.split('=')[1]
@@ -93,8 +95,13 @@ const ask = (question) => {
   removeQuickStart()
   createQuestion(question)
 
+  history.push({
+    role: 'user',
+    content: question,
+  })
+
   axios.post('/api/ask/', {
-      question: question
+      history: history
     })
     .then((response) => {
       chatContainer.lastChild.remove()
@@ -102,7 +109,12 @@ const ask = (question) => {
         alert(response.data.error)
         chatContainer.lastChild.remove()
       } else {
-        createAnswer(response.data.answer)
+        var answer = response.data.answer
+        createAnswer(answer)
+        history.push({
+            role: 'assistant',
+            content: answer,
+        })
       }
       messageBtn.addEventListener('click', messageBtnEvent)
     })

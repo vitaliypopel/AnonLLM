@@ -24,12 +24,11 @@ SECRET_KEY = 'django-insecure-#jey$7un$px#45#rgg=tk7g+)gf+45gono^lcz5qtbv6h+-3v4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # If you want you can turn it on
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
 ]
-
 
 # Application definition
 
@@ -77,12 +76,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {}
 
 
 # Password validation
@@ -121,9 +115,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'app/static/app'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'app/static/app'
+    BASE_DIR / 'app/static',
 ]
 
 # Default primary key field type
